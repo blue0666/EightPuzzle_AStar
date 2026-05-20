@@ -1,4 +1,4 @@
-# 八数码问题实验（GitHub Pages）
+# 八数码问题实验
 
 基于 HTML + CSS + JavaScript（ES Module）的模块化八数码求解演示。
 
@@ -55,7 +55,7 @@ src/
     ui-main.js
 ```
 
-## 默认样例数据（写报告用）
+## 默认样例数据
 
 初态（MATLAB bashuma.m）：
 
@@ -74,7 +74,3 @@ src/
 ```
 
 默认求解结果（本机 Node 测试）：解步数均为 **22**；扩展/生成节点大致为 **曼哈顿 < 不在位数 < BFS**。
-
-## 中文显示说明
-
-页面中文由 `js/strings-zh.js`（Unicode 转义）与 `js/apply-i18n.js` 注入，避免源文件编码乱码。源码注释已统一为 UTF-8。
