@@ -15,7 +15,6 @@
 必须用本地 HTTP 服务（ES Module 不支持 `file://` 直接打开）：
 
 ```bash
-# 在 src 目录下
 python -m http.server 8080
 ```
 
@@ -25,13 +24,9 @@ python -m http.server 8080
 
 关闭服务：在运行服务的终端按 `Ctrl + C`。
 
-## 部署 GitHub Pages
+## GitHub Pages
 
-1. 将 `src` 文件夹内全部文件推送到 GitHub 仓库。
-2. 若仓库根目录就是 `src` 内容：Settings → Pages → 选 `main` 分支 `/ (root)`。
-3. 若整仓包含 `src` 子目录：把 `src` 内文件移到仓库根目录或 `docs/`，再发布。
-
-访问：`https://<用户名>.github.io/<仓库名>/`
+访问：`https://blue0666.github.io/EightPuzzle_AStar/`
 
 ## 目录结构
 
