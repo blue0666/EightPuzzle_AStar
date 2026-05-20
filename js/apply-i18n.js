@@ -17,8 +17,12 @@ export function applyI18n() {
   setText('btn-default', STR.btnDefault);
   setText('btn-random', STR.btnRandom);
   setText('btn-solve', STR.btnSolve);
+  setText('start-block-title', STR.startBlockTitle);
+  setText('start-block-note', STR.startBlockNote);
   setText('goal-title', STR.goalTitle);
-  setText('goal-note', STR.goalNote);
+  setText('goal-caption', STR.goalCaption);
+  setText('col-header-bfs', STR.colBfs);
+  setText('col-sub-bfs', STR.colSubBfs);
   setText('result-section-title', STR.resultSection);
   setText('th-algo', STR.colAlgo);
   setText('th-heuristic', STR.colHeuristic);
@@ -58,5 +62,5 @@ export function applyI18n() {
   document.querySelectorAll('.step-play').forEach((b) => (b.textContent = STR.btnPlay));
 
   const grid = document.getElementById('start-grid');
-  if (grid) grid.setAttribute('aria-label', STR.inputSection);
+  if (grid) grid.setAttribute('aria-label', STR.startBlockTitle);
 }

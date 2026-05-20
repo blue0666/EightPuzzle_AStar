@@ -5,16 +5,17 @@ import { STR } from './strings-zh.js';
 let expandedChart = null;
 let generatedChart = null;
 
+/* 与 style.css 中 BFS / 不在位数 / 曼哈顿 主题色一致 */
 const CHART_COLORS = [
-  'rgba(14, 165, 233, 0.75)',
-  'rgba(16, 185, 129, 0.75)',
-  'rgba(245, 158, 11, 0.75)',
+  'rgba(59, 89, 152, 0.82)',
+  'rgba(45, 106, 90, 0.82)',
+  'rgba(107, 76, 154, 0.82)',
 ];
 
 const BORDER_COLORS = [
-  'rgb(14, 165, 233)',
-  'rgb(16, 185, 129)',
-  'rgb(245, 158, 11)',
+  'rgb(59, 89, 152)',
+  'rgb(45, 106, 90)',
+  'rgb(107, 76, 154)',
 ];
 
 function createOrUpdateBarChart(canvasId, label, labels, data, existingChart) {
