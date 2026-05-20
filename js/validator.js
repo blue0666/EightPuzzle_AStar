@@ -1,8 +1,9 @@
-/** Input validation and solvability */
+/** 输入校验与可解性判断（3×3 八数码逆序对奇偶性） */
 
 import { CELL_COUNT } from './config.js';
 import { STR } from './strings-zh.js';
 
+/** 检查 9 格是否为 0～8 各出现一次 */
 export function validateBoard(board) {
   if (!board || board.length !== CELL_COUNT) {
     return { valid: false, message: STR.needNine };
@@ -29,6 +30,7 @@ export function validateBoard(board) {
   return { valid: true, message: '' };
 }
 
+/** 按行优先、忽略空格统计逆序对 */
 function countInversions(board) {
   const tiles = board.filter((x) => x !== 0);
   let inv = 0;
@@ -40,10 +42,12 @@ function countInversions(board) {
   return inv;
 }
 
+/** 初态能否到达目标：逆序数奇偶性与目标相同 */
 export function isSolvable(start, goal) {
   return countInversions(start) % 2 === countInversions(goal) % 2;
 }
 
+/** 综合校验，返回是否可继续求解 */
 export function checkSolvable(start, goal) {
   const validation = validateBoard(start);
   if (!validation.valid) return { ok: false, reason: validation.message };

@@ -1,4 +1,4 @@
-/** Chart.js bar charts */
+/** Chart.js 柱状图：扩展节点数、生成节点数对比 */
 
 import { STR } from './strings-zh.js';
 

@@ -1,4 +1,4 @@
-/** Main UI controller */
+/** 主界面：串联校验、三种求解、结果表、同步演示 */
 
 import {
   GOAL,

@@ -1,4 +1,4 @@
-/** Apply Chinese UI strings from strings-zh.js */
+/** 将 strings-zh.js 中的中文文案写入页面 DOM */
 
 import { STR } from './strings-zh.js';
 

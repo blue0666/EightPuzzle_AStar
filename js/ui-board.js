@@ -1,8 +1,9 @@
-/** Board DOM helpers */
+/** 棋盘 DOM：9 格输入、3×3 展示、进度点 */
 
 import { diffIndices } from './state.js';
 import { STR } from './strings-zh.js';
 
+/** 创建 9 个数字输入框 */
 export function buildInputGrid(container, initial) {
   container.innerHTML = '';
   const inputs = [];
@@ -37,6 +38,7 @@ export function markInvalidInputs(inputs) {
   inputs.forEach((el) => el.classList.add('invalid'));
 }
 
+/** 渲染 3×3 盘面，可选高亮与上一步的差异格 */
 export function renderBoard(container, board, prevBoard = null) {
   container.innerHTML = '';
   const highlights = prevBoard ? new Set(diffIndices(board, prevBoard)) : new Set();
@@ -56,6 +58,7 @@ export function renderBoard(container, board, prevBoard = null) {
   }
 }
 
+/** 路径进度点，点击可跳转步骤 */
 export function renderProgressDots(container, totalSteps, currentIndex, onSelect) {
   container.innerHTML = '';
   if (totalSteps <= 1) return;
