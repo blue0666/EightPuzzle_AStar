@@ -1,0 +1,395 @@
+/* 八数码实验 — 样式 */
+:root {
+  --bg: #f4f6f9;
+  --panel: #ffffff;
+  --text: #1a1d26;
+  --muted: #5c6370;
+  --border: #dde2eb;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bfs: #0ea5e9;
+  --misplaced: #10b981;
+  --manhattan: #f59e0b;
+  --error: #dc2626;
+  --blank-bg: #e8ecf4;
+  --cell-size: 52px;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.page-header {
+  text-align: center;
+  padding: 1.5rem 1rem 0.5rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.hint, .goal-note, .demo-hint {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0 0 0.75rem;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.start-editor {
+  flex: 1;
+  min-width: 280px;
+}
+
+.goal-reference {
+  flex: 0 0 auto;
+  min-width: 200px;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.goal-reference h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+/* 9 格输入 */
+.grid-input {
+  display: grid;
+  grid-template-columns: repeat(3, var(--cell-size));
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.grid-input input {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+}
+
+.grid-input input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.grid-input input.invalid {
+  border-color: var(--error);
+  background: #fef2f2;
+}
+
+/* 只读目标盘 */
+.readonly-board,
+.board-display {
+  display: grid;
+  grid-template-columns: repeat(3, var(--cell-size));
+  gap: 6px;
+}
+
+.readonly-board span,
+.board-display .cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: #fff;
+  border: 2px solid var(--border);
+}
+
+.readonly-board .blank,
+.board-display .cell.blank {
+  background: var(--blank-bg);
+  color: var(--muted);
+}
+
+.board-display .cell.highlight {
+  border-color: var(--primary);
+  background: #eff6ff;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn.secondary {
+  background: #e8ecf4;
+  color: var(--text);
+}
+
+.btn.secondary:hover {
+  background: #dde2eb;
+}
+
+.btn.small {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+}
+
+.error-msg {
+  color: var(--error);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+.unsolvable-msg {
+  padding: 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: var(--error);
+  margin-bottom: 1rem;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.75rem;
+  text-align: center;
+}
+
+.result-table th {
+  background: #f1f5f9;
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.chart-box h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.chart-box {
+  min-height: 220px;
+}
+
+/* 三列演示 */
+.demo-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.demo-header h2 {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.sync-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.algo-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.algo-col {
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.col-header {
+  margin: 0;
+  padding: 0.4rem;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.col-header.bfs { background: var(--bfs); }
+.col-header.misplaced { background: var(--misplaced); }
+.col-header.manhattan { background: var(--manhattan); }
+
+.col-sub {
+  margin: 0.35rem 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.board-display {
+  justify-content: center;
+  margin: 0 auto 0.5rem;
+}
+
+.step-label {
+  font-weight: 600;
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.progress-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  min-height: 20px;
+  margin: 0.5rem 0;
+}
+
+.progress-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.progress-dots .dot.active {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+.progress-dots .dot:hover {
+  background: #94a3b8;
+}
+
+.col-controls {
+  display: flex;
+  gap: 0.35rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 报告折叠 */
+.report-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.report-content {
+  padding-top: 0.5rem;
+}
+
+.report-content h2 {
+  font-size: 1rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.flowchart {
+  background: #f1f5f9;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.page-footer {
+  text-align: center;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .algo-columns {
+    grid-template-columns: 1fr;
+  }
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+}

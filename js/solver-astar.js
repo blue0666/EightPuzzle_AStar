@@ -1,0 +1,126 @@
+/** A* 通用求解器 */
+
+import {
+  boardToKey,
+  boardsEqual,
+  cloneBoard,
+  getSuccessors,
+} from './state.js';
+import { PriorityQueue } from './priority-queue.js';
+
+/**
+ * @typedef {Object} SolveResult
+ * @property {boolean} success
+ * @property {number[][]} path - 从初态到目标的盘面序列（含起点与终点）
+ * @property {number} steps
+ * @property {number} expanded
+ * @property {number} generated
+ */
+
+/**
+ * A* 搜索
+ * @param {number[]} start
+ * @param {number[]} goal
+ * @param {(board: number[], goal: number[]) => number} heuristicFn
+ * @returns {SolveResult}
+ */
+export function solveAStar(start, goal, heuristicFn) {
+  if (boardsEqual(start, goal)) {
+    return {
+      success: true,
+      path: [cloneBoard(start)],
+      steps: 0,
+      expanded: 0,
+      generated: 1,
+    };
+  }
+
+  const startKey = boardToKey(start);
+  const open = new PriorityQueue();
+  const openMap = new Map();
+  const closed = new Set();
+
+  let expanded = 0;
+  let generated = 1;
+
+  const h0 = heuristicFn(start, goal);
+  const node0 = {
+    board: cloneBoard(start),
+    g: 0,
+    h: h0,
+    f: h0,
+    parent: null,
+  };
+  openMap.set(startKey, node0);
+  open.push(startKey, h0, h0, 0, node0);
+
+  while (!open.isEmpty()) {
+    const item = open.pop();
+    if (!item) break;
+
+    const { key, payload: node } = item;
+
+    if (closed.has(key)) continue;
+
+    const current = openMap.get(key);
+    if (!current || current.g !== node.g) continue;
+
+    if (boardsEqual(current.board, goal)) {
+      return {
+        success: true,
+        path: reconstructPath(current),
+        steps: current.g,
+        expanded,
+        generated,
+      };
+    }
+
+    closed.add(key);
+    openMap.delete(key);
+    expanded++;
+
+    for (const nextBoard of getSuccessors(current.board)) {
+      const nextKey = boardToKey(nextBoard);
+      if (closed.has(nextKey)) continue;
+
+      const g2 = current.g + 1;
+      const existing = openMap.get(nextKey);
+
+      if (existing && existing.g <= g2) continue;
+
+      const h2 = heuristicFn(nextBoard, goal);
+      const f2 = g2 + h2;
+      const nextNode = {
+        board: nextBoard,
+        g: g2,
+        h: h2,
+        f: f2,
+        parent: current,
+      };
+
+      if (!existing) generated++;
+      openMap.set(nextKey, nextNode);
+      open.push(nextKey, f2, h2, g2, nextNode);
+    }
+  }
+
+  return {
+    success: false,
+    path: [],
+    steps: -1,
+    expanded,
+    generated,
+  };
+}
+
+/** @param {*} node */
+function reconstructPath(node) {
+  const path = [];
+  let cur = node;
+  while (cur) {
+    path.push(cloneBoard(cur.board));
+    cur = cur.parent;
+  }
+  path.reverse();
+  return path;
+}

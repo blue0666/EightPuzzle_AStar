@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>8-Puzzle</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="page-header">
+    <h1 id="main-title"></h1>
+    <p class="subtitle" id="subtitle"></p>
+  </header>
+
+  <main class="layout">
+    <section class="panel input-panel">
+      <h2 id="input-section-title"></h2>
+      <div class="input-row">
+        <div class="start-editor">
+          <p class="hint" id="input-hint"></p>
+          <div id="start-grid" class="grid-input"></div>
+          <div class="btn-row">
+            <button type="button" id="btn-default" class="btn secondary"></button>
+            <button type="button" id="btn-random" class="btn secondary"></button>
+            <button type="button" id="btn-solve" class="btn primary"></button>
+          </div>
+          <p id="input-error" class="error-msg" hidden></p>
+        </div>
+        <aside class="goal-reference">
+          <h3 id="goal-title"></h3>
+          <div class="goal-board readonly-board">
+            <span>1</span><span>2</span><span>3</span>
+            <span>8</span><span class="blank">0</span><span>4</span>
+            <span>7</span><span>6</span><span>5</span>
+          </div>
+          <p class="goal-note" id="goal-note"></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel result-panel">
+      <h2 id="result-section-title"></h2>
+      <div id="unsolvable-msg" class="unsolvable-msg" hidden></div>
+      <div id="result-table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th id="th-algo"></th>
+              <th id="th-heuristic"></th>
+              <th id="th-steps"></th>
+              <th id="th-expanded"></th>
+              <th id="th-generated"></th>
+              <th id="th-time"></th>
+            </tr>
+          </thead>
+          <tbody id="result-tbody"></tbody>
+        </table>
+      </div>
+      <div class="charts-row">
+        <div class="chart-box">
+          <h3 id="chart-expanded-title"></h3>
+          <canvas id="chart-expanded"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3 id="chart-generated-title"></h3>
+          <canvas id="chart-generated"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel demo-panel">
+      <div class="demo-header">
+        <h2 id="demo-section-title"></h2>
+        <label class="sync-label">
+          <input type="checkbox" id="sync-play" checked />
+          <span id="sync-play-label"></span>
+        </label>
+      </div>
+      <p id="demo-hint" class="demo-hint"></p>
+      <div class="algo-columns">
+        <article class="algo-col" data-algo="bfs">
+          <header class="col-header bfs">BFS</header>
+          <p class="col-sub">h(n) = 0</p>
+          <div class="board-display" id="board-bfs"></div>
+          <p class="step-label" id="step-bfs"></p>
+          <div class="progress-dots" id="dots-bfs"></div>
+          <div class="col-controls">
+            <button type="button" class="btn small step-prev" data-algo="bfs"></button>
+            <button type="button" class="btn small step-next" data-algo="bfs"></button>
+            <button type="button" class="btn small step-play" data-algo="bfs"></button>
+          </div>
+        </article>
+        <article class="algo-col" data-algo="misplaced">
+          <header class="col-header misplaced" id="col-header-misplaced"></header>
+          <p class="col-sub" id="col-sub-misplaced"></p>
+          <div class="board-display" id="board-misplaced"></div>
+          <p class="step-label" id="step-misplaced"></p>
+          <div class="progress-dots" id="dots-misplaced"></div>
+          <div class="col-controls">
+            <button type="button" class="btn small step-prev" data-algo="misplaced"></button>
+            <button type="button" class="btn small step-next" data-algo="misplaced"></button>
+            <button type="button" class="btn small step-play" data-algo="misplaced"></button>
+          </div>
+        </article>
+        <article class="algo-col" data-algo="manhattan">
+          <header class="col-header manhattan" id="col-header-manhattan"></header>
+          <p class="col-sub" id="col-sub-manhattan"></p>
+          <div class="board-display" id="board-manhattan"></div>
+          <p class="step-label" id="step-manhattan"></p>
+          <div class="progress-dots" id="dots-manhattan"></div>
+          <div class="col-controls">
+            <button type="button" class="btn small step-prev" data-algo="manhattan"></button>
+            <button type="button" class="btn small step-next" data-algo="manhattan"></button>
+            <button type="button" class="btn small step-play" data-algo="manhattan"></button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel report-panel">
+      <button type="button" class="report-toggle" id="report-toggle" aria-expanded="false"></button>
+      <div id="report-content" class="report-content" hidden>
+        <h2 id="report-h2-flow"></h2>
+        <pre class="flowchart" id="report-flow"></pre>
+        <h2 id="report-h2-heuristic"></h2>
+        <ul id="report-heuristic-list"></ul>
+        <h2 id="report-h2-analysis"></h2>
+        <p id="report-analysis"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p id="footer-text"></p>
+  </footer>
+
+  <script type="module" src="js/ui-main.js"></script>
+</body>
+</html>
