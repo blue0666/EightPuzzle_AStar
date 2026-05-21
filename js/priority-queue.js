@@ -38,6 +38,7 @@ export class PriorityQueue {
     return top;
   }
 
+  /** 最小堆比较：f 小优先；同 f 则 h 小；再同则 g 大优先（略深者优先） */
   _less(a, b) {
     if (a.f !== b.f) return a.f < b.f;
     if (a.h !== b.h) return a.h < b.h;

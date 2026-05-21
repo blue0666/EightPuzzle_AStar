@@ -36,9 +36,9 @@ export function solveAStar(start, goal, heuristicFn) {
   }
 
   const startKey = boardToKey(start);
-  const open = new PriorityQueue();
-  const openMap = new Map();
-  const closed = new Set();
+  const open = new PriorityQueue(); // Open 表：按 f 取最小
+  const openMap = new Map(); // 盘面 key → 当前最优节点（含 parent，用于回溯）
+  const closed = new Set(); // Closed 表：已扩展过的盘面 key
 
   let expanded = 0;
   let generated = 1;
@@ -48,7 +48,7 @@ export function solveAStar(start, goal, heuristicFn) {
     board: cloneBoard(start),
     g: 0,
     h: h0,
-    f: h0,
+    f: h0, // 起点 f = g + h
     parent: null,
   };
   openMap.set(startKey, node0);
@@ -60,11 +60,13 @@ export function solveAStar(start, goal, heuristicFn) {
 
     const { key, payload: node } = item;
 
+    // 堆中可能残留旧条目；已进 Closed 或 g 已不是最优则跳过
     if (closed.has(key)) continue;
 
     const current = openMap.get(key);
     if (!current || current.g !== node.g) continue;
 
+    // 当前节点即目标：沿 parent 链回溯，不再扩展
     if (boardsEqual(current.board, goal)) {
       return {
         success: true,
@@ -86,6 +88,7 @@ export function solveAStar(start, goal, heuristicFn) {
       const g2 = current.g + 1;
       const existing = openMap.get(nextKey);
 
+      // 已有更优或同优路径到达该状态时，不重复放宽
       if (existing && existing.g <= g2) continue;
 
       const h2 = heuristicFn(nextBoard, goal);
@@ -100,7 +103,7 @@ export function solveAStar(start, goal, heuristicFn) {
 
       if (!existing) generated++;
       openMap.set(nextKey, nextNode);
-      open.push(nextKey, f2, h2, g2, nextNode);
+      open.push(nextKey, f2, h2, g2, nextNode); // 允许堆内同 key 多条，弹出时靠 g 校验
     }
   }
 
@@ -113,7 +116,7 @@ export function solveAStar(start, goal, heuristicFn) {
   };
 }
 
-/** 从目标节点回溯路径 */
+/** 从目标节点沿 parent 回溯到初态，得到演示用的盘面序列 */
 function reconstructPath(node) {
   const path = [];
   let cur = node;
@@ -121,6 +124,6 @@ function reconstructPath(node) {
     path.push(cloneBoard(cur.board));
     cur = cur.parent;
   }
-  path.reverse();
+  path.reverse(); // 调整为 [初态, …, 目标]
   return path;
 }

@@ -42,7 +42,7 @@ function countInversions(board) {
   return inv;
 }
 
-/** 初态能否到达目标：逆序数奇偶性与目标相同 */
+/** 初态能否到达目标：3×3 八数码下，逆序数奇偶性相同则可互达 */
 export function isSolvable(start, goal) {
   return countInversions(start) % 2 === countInversions(goal) % 2;
 }

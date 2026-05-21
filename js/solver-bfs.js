@@ -29,7 +29,7 @@ export function solveBFS(start, goal) {
 
   /** @type {{ board: number[], parent: object|null, g: number }[]} */
   const queue = [];
-  const visited = new Map();
+  const visited = new Map(); // 已生成过的状态（BFS 首次到达即最优）
 
   const startNode = { board: cloneBoard(start), parent: null, g: 0 };
   const startKey = boardToKey(start);
@@ -38,7 +38,7 @@ export function solveBFS(start, goal) {
 
   let expanded = 0;
   let generated = 1;
-  let head = 0;
+  let head = 0; // 队首指针，避免 shift() 的 O(n) 开销
 
   while (head < queue.length) {
     const current = queue[head++];
@@ -56,6 +56,7 @@ export function solveBFS(start, goal) {
       generated++;
       visited.set(nextKey, nextNode);
 
+      // 首次到达目标即最短步（按层扩展）
       if (boardsEqual(nextBoard, goal)) {
         return {
           success: true,
@@ -79,6 +80,7 @@ export function solveBFS(start, goal) {
   };
 }
 
+/** 与 A* 相同：parent 链回溯后反转为初态→目标 */
 function reconstructPath(node) {
   const path = [];
   let cur = node;

@@ -16,7 +16,7 @@ export function boardsEqual(a, b) {
   return true;
 }
 
-/** @param {number[]} board */
+/** 盘面序列化，用作 Map/Set 的键以判重 */
 export function boardToKey(board) {
   return board.join(',');
 }
@@ -58,7 +58,7 @@ export function getSuccessors(board) {
     if (nr < 0 || nr >= BOARD_SIZE || nc < 0 || nc >= BOARD_SIZE) continue;
     const next = cloneBoard(board);
     const z = rowColToIndex(nr, nc);
-    next[zero] = next[z];
+    next[zero] = next[z]; // 空格与相邻格交换
     next[z] = 0;
     successors.push(next);
   }

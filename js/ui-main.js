@@ -27,6 +27,7 @@ import { updateCharts, destroyCharts } from './ui-chart.js';
 
 let startInputs = [];
 
+// 三列演示各自保存求解器返回的 path（盘面序列）与当前步下标
 const demoState = {
   bfs: { path: [], stepIndex: 0, timer: null },
   misplaced: { path: [], stepIndex: 0, timer: null },
@@ -204,6 +205,7 @@ function onSolve() {
     }))
   );
 
+  // 将本次求解的完整走法写入演示区，与 Open/Close 无关
   for (const r of results) {
     demoState[r.key] = { path: r.result.path, stepIndex: 0, timer: null };
     refreshDemoColumn(r.key);
